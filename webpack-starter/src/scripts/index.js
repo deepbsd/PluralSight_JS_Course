@@ -33,7 +33,7 @@ let car1, car2, car3;
 let ourCars = [car1, car2, car3] ;
 const showCars = ourCars.map( id => `carId: ${id}`) ;
 console.log( "Our Cars: ", showCars );
-
+let remainingCars;
 let carId2s = [10,20,30];
 [car1, ...remainingCars] = carId2s;  // <---  can replace with [, ...remainingCars] to skip first element
 console.log("car ids: ",[car1].concat(remainingCars));
@@ -214,7 +214,7 @@ let app1 = (function(){
     let carId = 123;
     let getId = function(){
         return carId;
-    }
+    };
     return {
         getId: getId
     };
@@ -248,3 +248,84 @@ let newFn1 = obj1.getId.call(newCar1);
 let newFn2 = obj2.getId.apply(newCar1, ["carId: "]);
 
 console.log("newFn: ",newFn, " newFn1: ",newFn1, " newFn2: ",newFn2);
+
+
+// ********************** Constructor Functions ************************************
+
+console.log("************** Constructor Functions *****************");
+
+// Old way   Either way will work.  But adding to prototype is more efficient for memeory.
+function Greeter(name){
+    this.name = name; 
+
+    //this.greet = function(){
+    //    return "Hello "+this.name;
+    //}
+}
+Greeter.prototype.greet = function(){
+    return "Hello "+this.name;
+};
+
+let hijoe = new Greeter("Joe");
+console.log(hijoe.greet());
+
+
+// New way es6
+
+class Person {
+    constructor(name){
+        this.name = name;
+    }
+}
+
+let newguy = new Person("Joe");
+console.log("My name is",newguy.name);
+// new edit the attribute...
+newguy.name = "Brad";
+console.log("Now my name is",newguy.name);
+
+// Now we can add a method too
+
+class Animal {
+    constructor(type, name, sound){
+        this.type = type;
+        this.name = name;
+        this.sound = sound;
+    }
+
+    soundOff() {
+        return `My name is ${this.name}, I'm a ${this.type} and I say "${this.sound}!"`;
+    }
+}
+
+let marvin = new Animal("Penguin","Marvin","Linux");
+
+console.log(marvin.soundOff());
+
+// More on inheriting from classes
+
+//class Vehicle {
+//    constructor(){
+//        this.type = 'car';
+//    }
+//
+//    start(){
+//        return `Now I'm starting ${this.type}`;
+//    }
+//}
+//
+//class Car extends Vehicle {
+//    start(){
+//        return 'in drivers seat... ' + super.start();
+//    }
+//}
+
+// Note: Car is already importing from Vehicle
+// It all works just as before we commented out classes above in same file
+import { Car } from "./models/car";
+
+let beater = new Car();
+console.log(beater.start());
+
+
+
